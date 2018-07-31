@@ -64,24 +64,24 @@
 
         }
 
-        function getRandomLeft() {
-            return Math.floor(Math.random() * (getViewWidth() - getScaledWidth()));
+        function getRandomLeft(imageWidth) {
+            return Math.floor(Math.random() * (getViewWidth() - imageWidth));
 
         }
 
-        function getRandomTop() {
-            return Math.floor(Math.random() * (getViewHeight() - getScaledHeight()));
+        function getRandomTop(imageHeight) {
+            return Math.floor(Math.random() * (getViewHeight() - imageHeight));
         }
 
         function setElementStyle(el, milis) {
-            var finalHeight = Math.max(getScaledHeight(), getScaledWidth()/imageRatio);
-            var finalWidth = finalHeight * imageRatio;
+            var finalHeight = Math.floor(Math.max(getScaledHeight(), getScaledWidth()/imageRatio));
+            var finalWidth = Math.floor(finalHeight * imageRatio);
 
             el.style.width = finalWidth + 'px';
             el.style.height = finalHeight + 'px';
-            el.style.left = getRandomLeft() + 'px';
-            el.style.top = getRandomTop() + 'px';
-
+            el.style.left = getRandomLeft(finalWidth) + 'px';
+            el.style.top = getRandomTop(finalHeight) + 'px';
+            console.log("set image to size: (" + finalWidth + ", " + finalHeight + ") and move to (" + el.style.left + ", " + el.style.top + ")")
             setTimeout(() => hideElement(el), milis)
         }
 
