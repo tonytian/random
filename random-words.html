@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Random Words</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+
+        body {
+            background-color: black;
+        }
+
+        #dark {
+            width: 512px;
+            height: 173px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #mid {
+            width: 512px;
+            height: 173px;
+            position: absolute;
+            top: 200px;
+            left: 0;
+        }
+
+        #light {
+            width: 512px;
+            height: 173px;
+            position: fixed;
+            top: 400px;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <img src="dark.png" id="dark"/>
+    <img src="mid.png" id="mid"/>
+    <img src="light.png" id="light"/>
+    <script type="text/javascript">
+
+        var imageRatio = 512 / 173;
+
+        function getViewWidth() {
+            return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+        }
+
+        function getViewHeight() {
+            return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+        }
+
+        function getScaledWidth() {
+            return getViewWidth() / 4;
+
+        }
+
+        function getScaledHeight() {
+            return getViewHeight() / 4;
+
+        }
+
+        function getRandomLeft() {
+            return Math.floor(Math.random() * (getViewWidth() - getScaledWidth()));
+
+        }
+
+        function getRandomTop() {
+            return Math.floor(Math.random() * (getViewHeight() - getScaledHeight()));
+        }
+
+        function setElementStyle(el, milis) {
+            var finalHeight = Math.max(getScaledHeight(), getScaledWidth()/imageRatio);
+            var finalWidth = finalHeight * imageRatio;
+
+            el.style.width = finalWidth + 'px';
+            el.style.height = finalHeight + 'px';
+            el.style.left = getRandomLeft() + 'px';
+            el.style.top = getRandomTop() + 'px';
+
+            setTimeout(() => hideElement(el), milis)
+        }
+
+        function hideElement(el) {
+            el.style.width = '-10000px';
+            el.style.height = '-10000px';
+            el.style.left = '-10000px';
+            el.style.top = '-10000px';
+        }
+
+        document.body.style.width = getViewWidth() + 'px';
+        document.body.style.height = getViewHeight() + 'px';
+
+        document.body.onclick = function () {
+            setElementStyle(document.getElementById("light"), 1000);
+            setElementStyle(document.getElementById("mid"), 2000);
+            setTimeout(() => setElementStyle(document.getElementById("dark"), 1500), 1000);
+        };
+
+        hideElement(document.getElementById("dark"));
+        hideElement(document.getElementById("mid"));
+        hideElement(document.getElementById("light"));
+    </script>
+</body>
+</html>
